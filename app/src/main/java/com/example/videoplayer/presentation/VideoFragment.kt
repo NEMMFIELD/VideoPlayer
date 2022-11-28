@@ -49,7 +49,7 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
                     when (state) {
                         is ApiState.Success -> {
                             videosAdapter.submitList(state.data.toMutableList())
-                            binding.videoView.setVideoPath(state.data.first().fileUrl)
+                            binding.videoView.setVideoPath(videosViewModel.videoPath)
                             binding.videoView.start()
                             binding.videoView.setOnPreparedListener {
                                 it.isLooping = true

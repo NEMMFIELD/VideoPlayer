@@ -3,6 +3,7 @@ package com.example.videoplayer.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.videoplayer.data.network.ApiState
+import com.example.videoplayer.data.utils.Utils.Companion.FIRST_LINK
 import com.example.videoplayer.domain.models.ModelDTO
 import com.example.videoplayer.domain.usecase.LoadVideosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VideoViewModel @Inject constructor(private val getVideoUseCase: LoadVideosUseCase) :
     ViewModel() {
-    internal var videoPath = ""
+    var videoPath: String = FIRST_LINK
     private val _videoStateFlow: MutableStateFlow<ApiState<List<ModelDTO>>> =
         MutableStateFlow(ApiState.Empty)
     val videoStateFlow: StateFlow<ApiState<List<ModelDTO>>>
@@ -29,6 +30,7 @@ class VideoViewModel @Inject constructor(private val getVideoUseCase: LoadVideos
             try {
                 getVideoUseCase.execute().collect { videos ->
                     _videoStateFlow.value = ApiState.Success(videos)
+                    videoPath = videos.first().fileUrl!!
                 }
             } catch (e: java.lang.Exception) {
                 _videoStateFlow.value = ApiState.Failure(e)
