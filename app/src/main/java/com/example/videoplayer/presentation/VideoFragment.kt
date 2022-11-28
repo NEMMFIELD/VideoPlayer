@@ -1,10 +1,14 @@
 package com.example.videoplayer.presentation
 
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -63,7 +67,7 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
             requireActivity().finish() //Завершаем приложение
         }
         binding.btnText.setOnClickListener {
-            Toast.makeText(requireContext(),"This is temporary element",Toast.LENGTH_SHORT).show()
+            binding.editText.visibility = View.VISIBLE
         }
     }
 
@@ -79,7 +83,6 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
 
     override fun onItemCLick(modelDTO: ModelDTO) {
         videosViewModel.videoPath = modelDTO.fileUrl ?: ""
-        println("Video ${videosViewModel.videoPath}")
         activity?.runOnUiThread {
             with(binding) {
                 videoView.setVideoPath(videosViewModel.videoPath)

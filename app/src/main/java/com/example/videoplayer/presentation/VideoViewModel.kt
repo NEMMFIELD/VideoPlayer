@@ -1,22 +1,20 @@
 package com.example.videoplayer.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.videoplayer.data.adapter.VideosAdapter
 import com.example.videoplayer.data.network.ApiState
 import com.example.videoplayer.domain.models.ModelDTO
 import com.example.videoplayer.domain.usecase.LoadVideosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoViewModel @Inject constructor(private val getVideoUseCase: LoadVideosUseCase) : ViewModel() {
-    var videoPath = ""
+class VideoViewModel @Inject constructor(private val getVideoUseCase: LoadVideosUseCase) :
+    ViewModel() {
+    internal var videoPath = ""
     private val _videoStateFlow: MutableStateFlow<ApiState<List<ModelDTO>>> =
         MutableStateFlow(ApiState.Empty)
     val videoStateFlow: StateFlow<ApiState<List<ModelDTO>>>
