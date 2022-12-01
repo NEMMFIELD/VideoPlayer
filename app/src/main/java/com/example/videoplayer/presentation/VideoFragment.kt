@@ -50,7 +50,6 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
                         is ApiState.Success -> {
                             videosAdapter.submitList(state.data.toMutableList())
                             binding.videoView.setVideoPath(videosViewModel.videoPath)
-                            binding.videoView.start()
                             binding.videoView.setOnPreparedListener {
                                 it.isLooping = true
                             }
@@ -63,6 +62,7 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
                 }
             }
         }
+        binding.videoView.start()
         binding.btnBack.setOnClickListener {
             requireActivity().finish() //Завершаем приложение
         }
@@ -82,12 +82,11 @@ class VideoFragment : Fragment(), VideosAdapter.ClickListener {
     }
 
     override fun onItemCLick(modelDTO: ModelDTO) {
-        videosViewModel.videoPath = modelDTO.fileUrl ?: ""
-        activity?.runOnUiThread {
+        videosViewModel.videoPath = modelDTO.fileUrl ?: throw java.lang.Exception()
+        Log.d("URL",modelDTO.fileUrl.toString())
             with(binding) {
                 videoView.setVideoPath(videosViewModel.videoPath)
-                videoView.start()
+                videoView.resume()
             }
-        }
     }
 }
